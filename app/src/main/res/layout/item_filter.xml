@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp"
+    android:orientation="vertical">
+
+    <com.xiaopo.flying.filterlayout.CircleImageView
+        android:id="@+id/iv_filter"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/avatar" />
+
+    <TextView
+        android:gravity="center"
+        android:background="@drawable/filter_shadow"
+        android:layout_gravity="center"
+        android:textSize="10sp"
+        android:id="@+id/tv_filter"
+        android:text="美系玩具"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/white" />
+
+</FrameLayout>
