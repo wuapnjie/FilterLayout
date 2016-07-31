@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 分类布局
  * Created by snowbean on 16-7-6.
  */
 public class FilterLayout extends ViewGroup {
@@ -26,6 +27,8 @@ public class FilterLayout extends ViewGroup {
 
     private View mSelectedTitle;
     private View mUnSelectedTitle;
+
+    private boolean mIsChanged = false;
 
     //选中的Item
     private ArrayMap<View, FilterItem> mSelectedViews = new ArrayMap<>();
@@ -163,6 +166,12 @@ public class FilterLayout extends ViewGroup {
         layoutFilterItems();
     }
 
+    public void setAdapter(FilterAdapter adapter, int selectedCount) {
+        mAdapter = adapter;
+        mSelectedCount = selectedCount;
+        layoutFilterItems();
+    }
+
     private void layoutFilterItems() {
         if (mAdapter == null) {
 //            Log.e(TAG, "layoutFilterItems: the adapter is null");
@@ -184,6 +193,7 @@ public class FilterLayout extends ViewGroup {
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mIsChanged = true;
                         animateViews(v);
                     }
                 });
@@ -197,7 +207,7 @@ public class FilterLayout extends ViewGroup {
 
                     mSelectedPositions.add(i);
 
-                    Log.e(TAG, "layoutFilterItems: the selected item: " + filterItem.toString());
+//                    Log.e(TAG, "layoutFilterItems: the selected item: " + filterItem.toString());
 
                     mSelectedViews.put(view, filterItem);
                     selectedItemCount++;
@@ -205,8 +215,10 @@ public class FilterLayout extends ViewGroup {
                     int row = ceil((unselectedItemCount + 0.5) / mColumnCount);
                     int column = unselectedItemCount % mColumnCount + 1;
                     FilterItem filterItem = new FilterItem(row, column, false, i);
-                    Log.e(TAG, "layoutFilterItems: the selected item: " + filterItem.toString());
+
+//                    Log.e(TAG, "layoutFilterItems: the selected item: " + filterItem.toString());
                     mUnselectedViews.put(view, filterItem);
+
                     unselectedItemCount++;
                 }
             }
@@ -448,6 +460,10 @@ public class FilterLayout extends ViewGroup {
         return positions;
     }
 
+    public boolean isChanged() {
+        return mIsChanged;
+    }
+
     public static abstract class FilterAdapter {
 
         public abstract boolean hasSelectedTitle();
@@ -469,4 +485,81 @@ public class FilterLayout extends ViewGroup {
         public abstract int getItemCount();
     }
 
+
+    public static class FilterItem {
+        private int row;
+        private int column;
+        private boolean isSelected;
+        private int position;
+
+        public FilterItem(int row, int column, boolean isSelected, int position) {
+            this.row = row;
+            this.column = column;
+            this.isSelected = isSelected;
+            this.position = position;
+        }
+
+
+        public int getRow() {
+            return row;
+        }
+
+        public void setRow(int row) {
+            this.row = row;
+        }
+
+        public int getColumn() {
+            return column;
+        }
+
+        public void setColumn(int column) {
+            this.column = column;
+        }
+
+        @Override
+        public String toString() {
+            return "row is "
+                    + row
+                    + ", column is "
+                    + column
+                    + ", the selected state is "
+                    + isSelected;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = 17;
+            result = 31 * result + row;
+            result = 31 * result + column;
+            result = result + (isSelected ? 1 : 0);
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof FilterItem)) {
+                return false;
+            }
+
+            FilterItem position = (FilterItem) o;
+
+            return row == position.row && column == position.column && isSelected == position.isSelected;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+    }
 }

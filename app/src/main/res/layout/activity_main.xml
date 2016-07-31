@@ -18,5 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="56dp"
-        android:text="Click me" />
+        android:text="Show Selected Positions" />
+
 </FrameLayout>
