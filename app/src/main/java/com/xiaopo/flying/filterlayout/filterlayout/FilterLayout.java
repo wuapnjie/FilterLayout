@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 分类布局
@@ -35,7 +36,7 @@ public class FilterLayout extends ViewGroup {
     //未选中的Item
     private ArrayMap<View, FilterItem> mUnselectedViews = new ArrayMap<>();
 
-    private Set<Integer> mSelectedPositions = new HashSet<>();
+    private Set<Integer> mSelectedPositions = new TreeSet<>();
 
     private String TAG = FilterLayout.class.getSimpleName();
 
